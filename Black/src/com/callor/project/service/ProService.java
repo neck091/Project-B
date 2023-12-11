@@ -7,17 +7,16 @@ import com.callor.project.BlackDto;
 
 public class ProService {
 	List<BlackDto> card = null;
-
+		
 	public ProService() {
 		card = new ArrayList<BlackDto>();
 	}
 
-	@SuppressWarnings("null")
 	public void cards() {
 		int Num = 13;
 		int[] nums = new int[Num];
 		int index = 0;
-		String[] cards = null;
+		String[] cards = new String[52];
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < nums.length; j++) {
@@ -30,21 +29,22 @@ public class ProService {
 				} else if (i == 2) {
 					cards[index] = String.format("♣%s", nums[j]);
 				} else if (i == 3) {
-				cards[index] = String.format("◆%s", nums[j]);
+					cards[index] = String.format("◆%s", nums[j]);
 				}
 				index++;
 			}
 
-		}//for end
-		
+		} // for end
+
 		BlackDto blackDto = new BlackDto();
-		for(int i=0; i<index; i++) {
-		blackDto.cards= cards;
-		}
+			blackDto.cards = cards;
 		card.add(blackDto);
-		
-		
 
+	}// 카드 엔딩
+
+	public void print() {
+		for (int i = 0; i < card.size(); i++) {
+			System.out.println(card.get(i));
+		}
 	}
-
 }

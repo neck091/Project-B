@@ -1,4 +1,4 @@
-package com.callor.project;
+package com.callor.project.exec;
 
 public class Blackjack {
 
