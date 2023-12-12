@@ -6,6 +6,7 @@ import java.util.List;
 import com.callor.project.dto.BlackDto;
 
 public class ProService {
+<<<<<<< HEAD
 	
 	// 랜덤 카드덱 생성
  	public String[] cardDex() {
@@ -13,6 +14,20 @@ public class ProService {
 		String[] cardNum = { "A", "2", "3", "4", "5", "6",
 				"7", "8", "9", "10", "K", "Q", "J" };
 		int index = 0;
+=======
+	List<BlackDto> card = null;
+		
+	public ProService() {
+		card = new ArrayList<BlackDto>();
+	}
+
+	public void cards() {
+		int Num = 13;
+		int[] nums = new int[Num];
+		int index = 0;
+		String[] cards = new String[52];
+
+>>>>>>> 43a5138b6867bc6f6db607f9cfa2c35d57e5db2b
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 13; j++) {
 				cards[index] = cardNum[j];
@@ -24,12 +39,17 @@ public class ProService {
 				} else if (i == 2) {
 					cards[index] = "♣" + cardNum[j];
 				} else if (i == 3) {
+<<<<<<< HEAD
 					cards[index] = "◆" + cardNum[j];
+=======
+					cards[index] = String.format("◆%s", nums[j]);
+>>>>>>> 43a5138b6867bc6f6db607f9cfa2c35d57e5db2b
 				}
 				index++;
 
 			}
 
+<<<<<<< HEAD
 		}
 
 		for (int i = 0; i < 100; i++) {
@@ -74,4 +94,19 @@ public class ProService {
 	}//정산 끝
 	
 	
+=======
+		} // for end
+
+		BlackDto blackDto = new BlackDto();
+			blackDto.cards = cards;
+		card.add(blackDto);
+
+	}// 카드 엔딩
+
+	public void print() {
+		for (int i = 0; i < card.size(); i++) {
+			System.out.println(card.get(i));
+		}
+	}
+>>>>>>> 43a5138b6867bc6f6db607f9cfa2c35d57e5db2b
 }
