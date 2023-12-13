@@ -2,6 +2,6 @@ package com.callor.project.dto;
 
 public class BlackDto {
 	
-	public String[] cards;
+	public String getCard;
 
 }
