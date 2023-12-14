@@ -17,6 +17,7 @@ public class ProService {
 		scan = new Scanner(System.in);
 	}
 
+	//카드 완성 完
 	// 랜덤 카드덱 생성 完
 	public String cardDex() {
 		String[] cards = new String[52];
@@ -56,13 +57,15 @@ public class ProService {
 
 		// card.add(bDto)
 
-		// 카드 랜덤 뽑기
+		// 카드 랜덤 리턴
 		int ran = (int) (Math.random() * cards.length);
 		return cards[ran];
 
 	}// 카드 끝
 
 	// 중복 확인 코드 完
+	
+	//카드 중복 확인 完
 	private BlackDto select(String num) {
 
 		for (BlackDto dto : card) {
@@ -73,6 +76,8 @@ public class ProService {
 	}
 
 	// 카드뽑기이 完
+	
+	//카드뽑기이 完
 	public String getCard() {
 		BlackDto bDto = new BlackDto();
 
@@ -93,6 +98,8 @@ public class ProService {
 	}// 뽑은 카드는 리스트에 추가
 
 	// 카드별 점수 계산 完
+
+	// 점수 계산 完
 	public int socore(String result) {
 		int num = 0;
 		// String
@@ -124,117 +131,150 @@ public class ProService {
 		return num;
 	}// 정산 끝
 
-	
-	//점수 합산 & 게임 진행 完
+
+	// 점수 합산 未完 & 게임 진행 完
 	public void start() {
 
 		int scoreD = 0;
 		int scoreP = 0;
 		String cardGet = null;
+		
 		int index = 0;
 
 		while (true) {
+
 			if (index == 0) {
 				Line.sline();
 				System.out.println("딜러와 플레이어에게 카드를 2장씩 배부합니다.");
 				Line.sline();
 				cardGet = this.getCard();
 				scoreD += this.socore(cardGet);
+
 				cardGet = this.getCard();
 				scoreD += this.socore(cardGet);
-				if(scoreD==21) { 
-					
+				if (scoreD == 21) {
 					break;
 				}
-			}//처음한번만
+			} // 처음한번만 D
 
 			cardGet = this.getCard();
 			scoreP += this.socore(cardGet);
 			System.out.printf("당신이 받은 카드는 %s ", cardGet);
+			// 처음
 			if (index == 0) {
 				cardGet = this.getCard();
 				scoreP += this.socore(cardGet);
 				System.out.printf(", %s ", cardGet);
-			}//처음한번만
-			System.out.println("입니다.");
-			
-			if (21 < scoreP) break;
-			if (21 == scoreP) break;
 
-			index ++;
+			} // 한번만 P
+			
+			index++;
+			
+			System.out.println("입니다.");
+
+			if (21 < scoreP)
+				break;
+			if (21 == scoreP)
+				break;
 
 			if (scoreD < 17) {
 				System.out.println("딜러의 점수가 17 미만이므로 카드를 한 장 더 가져갑니다.");
+				cardGet = this.getCard();
+				scoreD += this.socore(cardGet);
+				
 			}
-			
-			if(scoreD>21)break;
-			if(scoreD==21) break; 
-			
-			
 
-			System.out.println("\n ☞ 현재 점수 : " + scoreP + "\n [[ HIT or STOP ]]");
-			System.out.print(" >>> ");
-			String str = scan.nextLine();
+			if (scoreD > 21)
+				break;
+			if (scoreD == 21)
+				break;
+
+			System.out.println("\n ☞ 현재 점수 : " + scoreP);
+
+			String str = null;
+			while (true) {
+				System.out.println("\n [[ HIT or STOP? ]]");
+				System.out.print(" >>> ");
+				str = scan.nextLine();
+				if (str.equals("HIT")) {
+					break;
+				} else if (str.equals("STOP")) {
+					break;
+				} else {
+					Line.sline();
+					System.out.println("철자를 제대로 입력해주세요");
+					Line.sline();
+					continue;
+				}
+			} // 타자 반복
+
 			if (str.equals("HIT")) {
-
 				Line.sline();
 				System.out.println("[ HIT ] - 카드를 추가합니다.");
 				Line.sline();
+
 				continue;
-			}
-			
-			else if (str.equals("STOP")) {
+			} else {
 				Line.sline();
 				System.out.println("[ STOP ] - 카드를 더 이상 추가하지 않습니다.");
 				Line.sline();
+
 				break;
 			}
-			
-	}
-	
+
+		} // 게임반복
+
 		System.out.println("+=======+ Game Over +=======+");
-		if (21==scoreP) {
+		if (21 == scoreP) {
 			System.out.println("[[[!s-s-s BLACKJACK s-s-s!]]]");
 			System.out.println("<<-+ !YOU WIN! +->>");
 			System.out.println("잭팟! 카드의 합이 21로 블랙잭입니다.\n축하합니다. 승리하셨습니다.");
-		}
-		else if (21 < scoreP){
+
+		} else if (21 < scoreD) {
+			System.out.println("딜러의 점수가 21 이상입니다. 축하합니다. 승리하셨습니다.");
+			System.out.println("<<-+ YOU WIN +->>");
+
+		} else if (21 - scoreP < 21 - scoreD) {
+			System.out.println("<<-+ YOU WIN +->>");
+			System.out.println("카드의 합이 딜러보다 21에 더 가깝습니다. 축하드립니다.\n승리하셨습니다.");
+	
+
+		} else if (21 == scoreD && index == 0) {
+			System.out.println("딜러가 처음 받은 카드의 합이 21이므로 무승부로 처리합니다.");
+			System.out.println("<<-- TIE -->>");
+		
+		} else if (21 - scoreP == 21 - scoreD) {
+			System.out.println("<<-- TIE -->>");
+			System.out.println("카드의 합이 딜러와 동점입니다.\n무승부로 끝났네요.");
+		
+		} else if (21 < scoreP) {
 			System.out.println("<<<! YOU LOSE !>>>");
 			System.out.println("카드의 합이 21 이상입니다.\n아쉽게도 패배하셨습니다.");
 			
-		}
-		else if (21-scoreP < 21-scoreD) {
-			System.out.println("<<-+ YOU WIN +->>");
-			System.out.println("카드의 합이 딜러보다 21에 더 가깝습니다. 축하드립니다.\n승리하셨습니다.");
-		}
-		else if (21-scoreP == 21-scoreD) {
-			System.out.println("<<-- TIE -->>");
-			System.out.println("카드의 합이 딜러와 동점입니다.\n무승부로 끝났네요.");
-		}
-		else if (21-scoreP > 21-scoreD) {
+		} else if (21 - scoreP > 21 - scoreD) {
 			System.out.println("<<<! YOU LOSE !>>>");
 			System.out.println("카드의 합이 딜러보다 21에서 멉니다.\n아쉽게도 패배하셨습니다.");
-		}
-		else if (21<scoreD) {
-			System.out.println("딜러의 점수가 21 이상입니다. 축하합니다. 승리하셨습니다.");
-			System.out.println("<<-+ YOU WIN +->>");
-		}
-		else if (21==scoreD && index==0 ) {
-			System.out.println("딜러가 처음 받은 카드의 합이 21이므로 무승부로 처리합니다.");
-			System.out.println("<<-- TIE -->>");		
-		}
 		
-		System.out.println("-".repeat(30));
-		System.out.printf("플레이어의 점수 : %d\n",scoreP);
-		System.out.printf("딜러의 점수 : %d\n",scoreD);
+		}
 
-	}
+		System.out.println("-".repeat(30));
+		System.out.printf("플레이어의 점수 : %d\n", scoreP);
+		System.out.println("플레이어가 뽑은 카드들 : ");
 	
+		System.out.println();
+		System.out.printf("딜러의 점수 : %d\n", scoreD);
+
+		System.out.println("딜러가 뽑은 카드들 : ");
+	
+		System.out.println();
+
+			} //게임 시스템
+
 	// 게임 실행 完
-		public void game() {
-			Line.rule(); // 초반 1번만 룰 설명
-			while(true) {
-				Line.line();
+	public void game() {
+		Line.rule(); // 초반 1번만 룰 설명
+		while (true) {
+			Line.line();
 			System.out.println("+=======+ Game Start +=======+");
 			Line.line();
 			this.start();
@@ -242,14 +282,18 @@ public class ProService {
 			System.out.println("다시 도전하시겠습니까? ( YES or NO )");
 			System.out.print(">>>");
 			String str = scan.nextLine();
-			if (str.equals("YES")) continue;
-			else if (str.equals("NO")) break;
-			}
-			Line.dline();
-			System.out.println("잘 생각하셨습니다. 도박은 멀리하는게 좋죠.");
-			System.out.println("안녕히가세요.");
-			Line.dline();
-		}// 게임 끝
-	
-	
+			if (str.equals("YES")) {
+				Line.dline();
+				System.out.println("게임 재시작");
+				Line.dline();
+				continue;
+			} else if (str.equals("NO"))
+				break;
+		}
+		Line.dline();
+		System.out.println("잘 생각하셨습니다.\n도박은 멀리하는게 좋죠.");
+		System.out.println("안녕히가세요.");
+		Line.dline();
+	}// 게임 끝
+
 }
