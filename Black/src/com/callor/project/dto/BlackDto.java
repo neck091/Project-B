@@ -5,6 +5,6 @@ public class BlackDto {
 	public String getCard;
 	
 	
-	public String[] cardP;
-	public String[] cardD;
+	public String cardP;
+	public String cardD;
 }

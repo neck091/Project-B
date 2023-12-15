@@ -10,10 +10,15 @@ import com.callor.project.utils.Line;
 public class ProService {
 
 	List<BlackDto> card = null;
+	List<BlackDto> cardP = null;
+	List<BlackDto> cardD = null;
+	
 	Scanner scan = null;
 
 	public ProService() {
 		card = new ArrayList<BlackDto>();
+		cardP = new ArrayList<BlackDto>();
+		cardD = new ArrayList<BlackDto>();
 		scan = new Scanner(System.in);
 	}
 
@@ -134,25 +139,29 @@ public class ProService {
 
 	// 점수 합산 未完 & 게임 진행 完
 	public void start() {
-
+		
 		int scoreD = 0;
 		int scoreP = 0;
 		String cardGet = null;
 		
 		int index = 0;
+		int countP=2;
+		int countD=2;
 		
 		while (true) {
 
+			
 			if (index == 0) {
 				Line.sline();
 				System.out.println("딜러와 플레이어에게 카드를 2장씩 배부합니다.");
 				Line.sline();
 				cardGet = this.getCard();
-				
 				scoreD += this.socore(cardGet);
+				this.printCardD(cardGet,"과정");
 
 				cardGet = this.getCard();
 				scoreD += this.socore(cardGet);
+				this.printCardD(cardGet, "과정");
 				
 				if (scoreD >= 21) break;
 			} // 처음한번만 D
@@ -160,12 +169,13 @@ public class ProService {
 			cardGet = this.getCard();
 			scoreP += this.socore(cardGet);
 			System.out.println("당신이 받은 카드는");
-			this.printCard(cardGet);
+			this.printCardP(cardGet,"과정");
+
 			// 처음
 			if (index == 0) {
 				cardGet = this.getCard();
 				scoreP += this.socore(cardGet);
-				this.printCard(cardGet);
+				this.printCardP(cardGet,"과정");
 			} // 한번만 P
 			
 			index++;
@@ -178,6 +188,7 @@ public class ProService {
 				System.out.println("딜러의 점수가 17 미만이므로 카드를 한 장 더 가져갑니다.");
 				cardGet = this.getCard();
 				scoreD += this.socore(cardGet);
+				this.printCardD(cardGet,"과정");
 				
 			}
 
@@ -209,7 +220,8 @@ public class ProService {
 				Line.sline();
 				System.out.println("[ HIT ] - 카드를 추가합니다.");
 				Line.sline();
-
+				countP += 1; 
+				
 				continue;
 			} else {
 				Line.sline();
@@ -220,7 +232,7 @@ public class ProService {
 			}
 
 		} // 게임반복
-
+		
 		System.out.println("+=======+ Game Over +=======+");
 		
 		if (scoreP == scoreD) {
@@ -263,17 +275,28 @@ public class ProService {
 		System.out.printf("플레이어의 점수 : %d\n", scoreP);
 		System.out.println("플레이어가 뽑은 카드들 : ");
 		
-		System.out.println("//未完");
+		int count =0;
+		for(BlackDto dto : cardP) {
+			//if (dto.cardD.equals(cardP.get(count)))
+			this.printCardP(dto.cardP,"");
+		}
 		
 		System.out.println();
 		System.out.printf("딜러의 점수 : %d\n", scoreD);
 
 		System.out.println("딜러가 뽑은 카드들 : ");
 		
-		System.out.println("//未完");
+		count =0;
+		for(BlackDto dto : cardD) {
+			//if (dto.cardD.equals(cardP.get(count)))
+			this.printCardD(dto.cardD,"");
+			
+			
+		}
+		
 	
 		System.out.println();
-
+	
 			} //게임 시스템
 
 	// 게임 실행 完
@@ -292,6 +315,7 @@ public class ProService {
 				Line.dline();
 				System.out.println("게임 재시작");
 				Line.dline();
+				
 				continue;
 			} else if (str.equals("NO"))
 				break;
@@ -302,8 +326,13 @@ public class ProService {
 		Line.dline();
 	}// 게임 끝
 
-	//카드 그림 끝
-	public void printCard(String getCard) {
+	//플레이어 카드 보이기 完
+	public void printCardP(String getCard,String print) {
+		
+		if(print.equals("과정")) {
+		BlackDto bDto = new BlackDto();
+		bDto.cardP=getCard;
+		
 
 		System.out.print ("\t┌──────┐\n");
 		System.out.printf(String.format("\t│%3s   │\n",getCard));
@@ -311,6 +340,37 @@ public class ProService {
 		System.out.printf(String.format("\t│  %3s │\n",getCard));
 		System.out.print ("\t└──────┘\n");
 		
+		
+		
+		cardP.add(bDto);}else {
+		
+		
+
+		System.out.print ("\t┌──────┐\n");
+		System.out.printf(String.format("\t│%3s   │\n",getCard));
+		System.out.printf("\t│      │\n");
+		System.out.printf(String.format("\t│  %3s │\n",getCard));
+		System.out.print ("\t└──────┘\n");
+		
+		}
+	}
+	
+	//딜러카드 보이기 完
+	public void printCardD(String getCard,String print) {
+
+		if(print.equals("과정")){
+			BlackDto bDto = new BlackDto();
+			bDto.cardD=getCard;
+			cardD.add(bDto);
+			
+		
+		}else{ 
+		System.out.print ("\t┌──────┐\n");
+		System.out.printf(String.format("\t│%3s   │\n",getCard));
+		System.out.printf("\t│      │\n");
+		System.out.printf(String.format("\t│  %3s │\n",getCard));
+		System.out.print ("\t└──────┘\n");
+		}
 	}
 	
 }
