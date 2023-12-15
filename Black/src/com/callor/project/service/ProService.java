@@ -296,6 +296,10 @@ public class ProService {
 		
 	
 		System.out.println();
+		card = new ArrayList<BlackDto>();
+		cardP = new ArrayList<BlackDto>();
+		cardD = new ArrayList<BlackDto>();
+		
 	
 			} //게임 시스템
 
@@ -303,6 +307,7 @@ public class ProService {
 	public void game() {
 		Line.rule(); // 초반 1번만 룰 설명
 		while (true) {
+			
 			Line.line();
 			System.out.println("+=======+ Game Start +=======+");
 			Line.line();
