@@ -57,18 +57,12 @@ public class ProService {
 		// System.out.println(cards[i]);
 		// } 출력확인
 
-		// BlackDto bDto = new BlackDto();
-		// bDto.getCard = cards[ran];
-
-		// card.add(bDto)
-
 		// 카드 랜덤 리턴
 		int ran = (int) (Math.random() * cards.length);
 		return cards[ran];
 
 	}// 카드 끝
 
-	// 중복 확인 코드 完
 	
 	//카드 중복 확인 完
 	private BlackDto select(String num) {
@@ -80,8 +74,6 @@ public class ProService {
 		return null;
 	}
 
-	// 카드뽑기이 完
-	
 	//카드뽑기이 完
 	public String getCard() {
 		BlackDto bDto = new BlackDto();
@@ -101,8 +93,6 @@ public class ProService {
 		return bDto.getCard;
 
 	}// 뽑은 카드는 리스트에 추가
-
-	// 카드별 점수 계산 完
 
 	// 점수 계산 完
 	public int socore(String result) {
@@ -145,8 +135,6 @@ public class ProService {
 		String cardGet = null;
 		
 		int index = 0;
-		int countP=2;
-		int countD=2;
 		
 		while (true) {
 
@@ -220,7 +208,6 @@ public class ProService {
 				Line.sline();
 				System.out.println("[ HIT ] - 카드를 추가합니다.");
 				Line.sline();
-				countP += 1; 
 				
 				continue;
 			} else {
@@ -233,67 +220,7 @@ public class ProService {
 
 		} // 게임반복
 		
-		System.out.println("+=======+ Game Over +=======+");
-		
-		if (scoreP == scoreD) {
-			System.out.println("<<-- TIE -->>");
-			System.out.println("카드의 합이 딜러와 동점입니다.\n무승부로 끝났네요.");			
-		
-		} else if (21 == scoreP) {
-			System.out.println("[[[!s-s-s BLACKJACK s-s-s!]]]");
-			System.out.println("<<-+ !YOU WIN! +->>");
-			System.out.println("잭팟! 카드의 합이 21로 블랙잭입니다.\n축하합니다. 승리하셨습니다.");
-			
-		} else if (21 == scoreD) {
-			System.out.println("<<<! YOU LOSE !>>>");
-			System.out.println("딜러의 카드의 합이 21로 블랙잭입니다.\n아쉽게도 패배하셨습니다.");
-			
-		} else if (21 < scoreD) {
-			System.out.println("딜러의 점수가 21 이상입니다. 축하합니다. 승리하셨습니다.");
-			System.out.println("<<-+ YOU WIN +->>");
-
-		} else if (21 - scoreP < 21 - scoreD && scoreP  <21) {
-			System.out.println("<<-+ YOU WIN +->>");
-			System.out.println("카드의 합이 딜러보다 21에 더 가깝습니다. 축하드립니다.\n승리하셨습니다.");
-	
-
-		} else if (21 == scoreD && index == 0) {
-			System.out.println("딜러가 처음 받은 카드의 합이 21이므로 무승부로 처리합니다.");
-			System.out.println("<<-- TIE -->>");
-		} else if (21 < scoreP) {
-			System.out.println("<<<! YOU LOSE !>>>");
-			System.out.println("카드의 합이 21 이상입니다.\n아쉽게도 패배하셨습니다.");
-			
-		} 
-		else if (21 - scoreP > 21 - scoreD) {
-			System.out.println("<<<! YOU LOSE !>>>");
-			System.out.println("카드의 합이 딜러보다 21에서 멉니다.\n아쉽게도 패배하셨습니다.");
-		
-		}
-
-		System.out.println("-".repeat(30));
-		System.out.printf("플레이어의 점수 : %d\n", scoreP);
-		System.out.println("플레이어가 뽑은 카드들 : ");
-		
-		int count =0;
-		for(BlackDto dto : cardP) {
-			//if (dto.cardD.equals(cardP.get(count)))
-			this.printCardP(dto.cardP,"");
-		}
-		
-		System.out.println();
-		System.out.printf("딜러의 점수 : %d\n", scoreD);
-
-		System.out.println("딜러가 뽑은 카드들 : ");
-		
-		count =0;
-		for(BlackDto dto : cardD) {
-			//if (dto.cardD.equals(cardP.get(count)))
-			this.printCardD(dto.cardD,"");
-			
-			
-		}
-		
+		this.printResult(scoreP, scoreD, index);
 	
 		System.out.println();
 		card = new ArrayList<BlackDto>();
@@ -378,4 +305,63 @@ public class ProService {
 		}
 	}
 	
+	// 결과 보이기 完
+	public void printResult(int scoreP, int scoreD, int index) {
+		
+		System.out.println("+=======+ Game Over +=======+");
+		
+		if (scoreP == scoreD) {
+			System.out.println("<<-- TIE -->>");
+			System.out.println("카드의 합이 딜러와 동점입니다.\n무승부로 끝났네요.");			
+		
+		} else if (21 == scoreP) {
+			System.out.println("[[[!s-s-s BLACKJACK s-s-s!]]]");
+			System.out.println("<<-+ !YOU WIN! +->>");
+			System.out.println("잭팟! 카드의 합이 21로 블랙잭입니다.\n축하합니다. 승리하셨습니다.");
+			
+		} else if (21 == scoreD) {
+			System.out.println("<<<! YOU LOSE !>>>");
+			System.out.println("딜러의 카드의 합이 21로 블랙잭입니다.\n아쉽게도 패배하셨습니다.");
+			
+		} else if (21 < scoreD) {
+			System.out.println("딜러의 점수가 21 이상입니다. 축하합니다. 승리하셨습니다.");
+			System.out.println("<<-+ YOU WIN +->>");
+
+		} else if (21 - scoreP < 21 - scoreD && scoreP  <21) {
+			System.out.println("<<-+ YOU WIN +->>");
+			System.out.println("카드의 합이 딜러보다 21에 더 가깝습니다. 축하드립니다.\n승리하셨습니다.");
+	
+
+		} else if (21 == scoreD && index == 0) {
+			System.out.println("딜러가 처음 받은 카드의 합이 21이므로 무승부로 처리합니다.");
+			System.out.println("<<-- TIE -->>");
+		} else if (21 < scoreP) {
+			System.out.println("<<<! YOU LOSE !>>>");
+			System.out.println("카드의 합이 21 이상입니다.\n아쉽게도 패배하셨습니다.");
+			
+		} 
+		else if (21 - scoreP > 21 - scoreD) {
+			System.out.println("<<<! YOU LOSE !>>>");
+			System.out.println("카드의 합이 딜러보다 21에서 멉니다.\n아쉽게도 패배하셨습니다.");
+		
+		}
+
+		System.out.println("-".repeat(30));
+		System.out.printf("플레이어의 점수 : %d\n", scoreP);
+		System.out.println("플레이어가 뽑은 카드들 : ");
+		for(BlackDto dto : cardP) {
+			//if (dto.cardD.equals(cardP.get(count)))
+			this.printCardP(dto.cardP,"");
+		}
+		
+		System.out.println();
+		System.out.printf("딜러의 점수 : %d\n", scoreD);
+		System.out.println("딜러가 뽑은 카드들 : ");
+		for(BlackDto dto : cardD) {
+			//if (dto.cardD.equals(cardP.get(count)))
+			this.printCardD(dto.cardD,"");
+			
+			
+		}
+	}
 }
